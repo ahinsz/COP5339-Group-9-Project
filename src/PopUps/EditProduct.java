@@ -44,7 +44,7 @@ public class EditProduct {
 	frame.setVisible(true);
     }
     
-    private void placeComponents(final JPanel panel,final MasterClass master,final JFrame frame, Inventory item){
+    private void placeComponents(final JPanel panel,final MasterClass master,final JFrame frame, final Inventory item){
         panel.setLayout(null);
 
         final JLabel productLabel = new JLabel("Product Name");
@@ -138,7 +138,6 @@ public class EditProduct {
                     return;
                 }
 
-                Inventory item = new Inventory();
                 item.Name = nameText.getText();
                 item.Description = descriptionText.getText();
                 item.Sell_Price = Double.parseDouble(sellText.getText());

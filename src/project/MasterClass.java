@@ -28,6 +28,7 @@ public class MasterClass {
     private ArrayList<Inventory> sellerInventory;
     private Login loginPopup;
     private NewProduct newProductPopup;
+    private EditProduct editProductPopup;
     private Register registerPopup;
     private SellerList sellerPopup;
     private ProductList productPopup;
@@ -40,6 +41,7 @@ public class MasterClass {
         registerPopup = new Register();
         sellerPopup = new SellerList();
         productPopup = new ProductList();
+        editProductPopup = new EditProduct();
 
         //initialize the lists
         userList = new ArrayList();
@@ -91,6 +93,10 @@ public class MasterClass {
     }
     
     public void createProduct(Inventory item) throws IOException{
+        if(productList.size() > 0)
+            item.product_ID = productList.get(productList.size() - 1).product_ID + 1;
+        else
+            item.product_ID = 1;
         item.product_ID = productList.size() + 1;
         item.SellerID = currentUser.userId;
         productList.add(item);
@@ -101,13 +107,31 @@ public class MasterClass {
     }
     
     public void updateProduct(Inventory item) throws IOException{
-        
+        int local = findProductinList(item.product_ID);
+        if(local >= 0)
+            productList.set(local, item);
         
         this.updateInventory();
+        this.getSellerList();
+        sellerPopup.refreshList(sellerInventory);
+    }
+    
+    public void removeProduct(int id) throws IOException{
+        int local = findProductinList(id);
+        if(local >= 0)
+            productList.remove(local);
+        
+        this.updateInventory();
+        this.getSellerList();
+        sellerPopup.refreshList(sellerInventory);
     }
     
     public void createUser(User user) throws IOException{
-        user.userId = userList.size() + 1;
+        if(userList.size() > 0)
+            user.userId = userList.get(userList.size() - 1).userId + 1;
+        else
+            user.userId = 1;
+        
         user.CreateDate = new Date();
         userList.add(user);
         
@@ -142,7 +166,7 @@ public class MasterClass {
         registerPopup.openPopup(this);
     }
     public void openProductList(){
-        productPopup.openPopup(this);
+        productPopup.openPopup(this, productList);
     }
     
     public void openSellerList(){
@@ -150,7 +174,12 @@ public class MasterClass {
     }
     
     public void openNewProduct(){
-        NewProduct product = new NewProduct(this);
+        newProductPopup.openNewProduct(this);
+    }
+    
+    public void openEditProduct(int id){
+        Inventory item = productList.get(findProductinList(id));
+        editProductPopup.openPopup(this, item);
     }
     
     public boolean UserExists(String user){
@@ -182,6 +211,25 @@ public class MasterClass {
                 sellerInventory.add(productList1);
             }
         }
+    }
+    
+    public User getSeller(int id){
+        for (User user : userList) {
+            if (user.userId == id) {
+                return user;
+            }
+        }
+        
+        return null;
+    }
+    
+    private int findProductinList(int id){
+        for(int i = 0; i < productList.size(); i++){
+            if(productList.get(i).product_ID == id)
+                return i;
+        }
+        
+        return -1;
     }
     
 }

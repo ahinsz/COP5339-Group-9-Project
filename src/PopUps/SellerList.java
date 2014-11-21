@@ -47,8 +47,24 @@ public class SellerList {
     }
     
     private void placeComponents(final JPanel panel, final MasterClass master, final JFrame frame, final ArrayList<Inventory> list) {
-        
         panel.setLayout(null);
+        
+        String[] columns = {"Product ID","Name", "Sell Price", "Invoice Price", "Quantity"};
+        
+        tableModel  = new DefaultTableModel(columns, 0);
+        
+        final JTable products = new JTable(tableModel);
+        
+        for (Inventory l : list) {
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Invoice_Price, l.Quantity};
+            tableModel.addRow(item);
+        }
+        
+        JScrollPane scrollList = new JScrollPane(products);
+        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollList.setBounds(10, 100, 360, 200);
+
+        panel.add(scrollList);
         
         JButton addProductButton = new JButton("Add New Product");
         addProductButton.setBounds(10, 20, 150, 30);
@@ -65,26 +81,52 @@ public class SellerList {
         panel.add(addProductButton);
         
         JButton editProductButton = new JButton("Edit Product");
-        editProductButton.setBounds(200, 20, 150, 30);
+        editProductButton.setBounds(10, 50, 150, 30);
         panel.add(editProductButton);
         
-        String[] columns = {"Product ID","Name", "Sell Price", "Invoice Price", "Quantity"};
+        editProductButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                    if(products.getSelectedRow() > -1){
+                        master.openEditProduct((int) products.getModel().getValueAt(products.getSelectedRow(), 0));
+                    }
+               }
+            });
         
-        tableModel  = new DefaultTableModel(columns, 0);
+        JButton removeProductButton = new JButton("Delete Product");
+        removeProductButton.setBounds(160, 20, 150, 30);
+        panel.add(removeProductButton);
         
-        JTable products = new JTable(tableModel);
+        removeProductButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                    if(products.getSelectedRow() > -1){
+                        try {
+                            master.removeProduct((int) products.getModel().getValueAt(products.getSelectedRow(), 0));
+                        } catch (IOException ex) {
+                            Logger.getLogger(SellerList.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+               }
+            });
         
-        for (Inventory l : list) {
-            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Invoice_Price, l.Quantity};
-            tableModel.addRow(item);
-        }
+        JButton logOutButton = new JButton("Log Out");
+        logOutButton.setBounds(160, 50, 150, 30);
+        panel.add(logOutButton);
         
-        JScrollPane scrollList = new JScrollPane(products);
-        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setBounds(10, 60, 360, 200);
-
-        panel.add(scrollList);
-        
+        logOutButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                    master.openLoginPopup();
+                    frame.dispose();
+               }
+            });
         
         
     }
@@ -92,5 +134,18 @@ public class SellerList {
     public void updateList(Inventory item){
         Object[] i = {item.product_ID, item.Name, item.Sell_Price, item.Invoice_Price, item.Quantity};
         tableModel.addRow(i);
+    }
+    
+    public void refreshList(ArrayList<Inventory> seller){
+        if (tableModel.getRowCount() > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
+        
+        for (Inventory l : seller) {
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Invoice_Price, l.Quantity};
+            tableModel.addRow(item);
+        }
     }
 }
