@@ -8,9 +8,13 @@ package PopUps;
 import DataTypes.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,24 +27,37 @@ import project.MasterClass;
  */
 public class ProductList {
     private DefaultTableModel tableModel;
+    private JLabel cartAmount;
+    private JLabel cartTotal;
+    
     
     public ProductList(){
-        
     }
     
-    public void openPopup(MasterClass master, ArrayList<Inventory> list){
+    public void openPopup(MasterClass master, ArrayList<Inventory> list, Cart currentCart){
         JFrame frame = new JFrame("Product List");
-	frame.setSize(400, 450);
+	frame.setSize(410, 430);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	JPanel panel = new JPanel();
 	frame.add(panel);
-        placeComponents(panel, master, frame, list);
+        placeComponents(panel, master, frame, list, currentCart);
 
 	frame.setVisible(true);
     }
     
-    private void placeComponents(JPanel panel,final MasterClass master,final JFrame frame,ArrayList<Inventory> list){
+    private void placeComponents(JPanel panel,final MasterClass master,final JFrame frame,ArrayList<Inventory> list, final Cart currentCart){
+        cartAmount = new JLabel();
+        cartTotal = new JLabel();
+        
+        cartAmount.setText("Cart: " + Integer.toString(currentCart.itemList.size()));
+        cartAmount.setBounds(315, 20, 150, 30);
+        panel.add(cartAmount);
+        
+        cartTotal.setText("Total: " + Double.toString(currentCart.total));
+        cartTotal.setBounds(315, 50, 150, 30);
+        panel.add(cartTotal);
+        
         panel.setLayout(null);
         
         String[] columns = {"Product ID","Name", "Seller", "Sell Price", "Quantity"};
@@ -57,7 +74,7 @@ public class ProductList {
         
         JScrollPane scrollList = new JScrollPane(products);
         scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setBounds(10, 100, 360, 200);
+        scrollList.setBounds(10, 100, 375, 200);
 
         panel.add(scrollList);
         
@@ -74,6 +91,27 @@ public class ProductList {
                     frame.dispose();
                }
             });
+        
+        JButton addCarButton = new JButton("Add to Cart");
+        addCarButton.setBounds(160, 20, 150, 30);
+
+        addCarButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                   if(products.getSelectedRow() > -1){
+                        master.addToCart(1, (int) products.getModel().getValueAt(products.getSelectedRow(), 0));
+                   }
+               }
+            });
+        
+        panel.add(addCarButton);
+    }
+    
+    public void updateCart(Cart currentCart){
+        cartAmount.setText("Cart: " + currentCart.itemList.size());
+        cartTotal.setText("Total: " + currentCart.total);
     }
     
 }

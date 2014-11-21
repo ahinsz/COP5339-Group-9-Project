@@ -14,6 +14,11 @@ import DataTypes.*;
  * @author Andrew
  */
 public class Cart implements Serializable {
+    public Cart(){
+        itemList = new ArrayList<CartItem>();
+        total = 0;
+    }
+    
     public int CartID;
     public int userID;
     public ArrayList<CartItem> itemList;

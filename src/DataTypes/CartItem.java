@@ -13,9 +13,6 @@ public class CartItem {
     public int productId;
     public int SellerID;
     public int amount;
-    public double price;
     public String Name;
     public double Sell_Price;
-    public int QuantityAvailable;
-    public int QuantityWanted;
 }

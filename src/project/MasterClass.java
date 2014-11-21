@@ -32,6 +32,7 @@ public class MasterClass {
     private Register registerPopup;
     private SellerList sellerPopup;
     private ProductList productPopup;
+    private Cart currentCart;
     
     public MasterClass() throws IOException, ClassNotFoundException{
         
@@ -49,6 +50,8 @@ public class MasterClass {
         invoiceList = new ArrayList();
         salesList = new ArrayList();
         
+        //initialize the objects
+        currentCart = new Cart();
         
         /*
         Here we load the data from the their respective dat files
@@ -66,6 +69,52 @@ public class MasterClass {
         productList = (ArrayList<Inventory>)in.readObject();
         in.close();
         
+    }
+    
+    public void addToCart(int amount, int id){
+        Inventory item = getProduct(id);
+        
+        if(amount > item.Quantity)
+            return;
+        
+        int pos = existsInCart(id);
+        
+        if(pos >= 0){
+            CartItem oldItem = currentCart.itemList.get(pos);
+            if(oldItem.amount + amount > item.Quantity)
+                return;
+            
+            oldItem.amount += amount;
+            currentCart.itemList.set(pos, oldItem);
+            recalculateCartTotal();
+            productPopup.updateCart(currentCart);
+        }else{
+            CartItem newItem = new CartItem();
+            newItem.Name = item.Name;
+            newItem.Sell_Price = item.Sell_Price;
+            newItem.SellerID = item.SellerID;
+            newItem.amount = amount;
+            newItem.productId = item.product_ID;
+            
+            currentCart.itemList.add(newItem);
+            recalculateCartTotal();
+            productPopup.updateCart(currentCart);
+        }
+    }
+    
+    private void recalculateCartTotal(){
+        currentCart.total = 0;
+        for(CartItem item: currentCart.itemList){
+            currentCart.total += item.amount * item.Sell_Price;
+        }
+    }
+    
+    private int existsInCart(int id){
+        for(int i = 0; i < currentCart.itemList.size(); i++){
+            if(currentCart.itemList.get(i).productId == id)
+                return i;
+        }
+        return -1;
     }
     
     public void updateInventory() throws IOException{
@@ -166,7 +215,7 @@ public class MasterClass {
         registerPopup.openPopup(this);
     }
     public void openProductList(){
-        productPopup.openPopup(this, productList);
+        productPopup.openPopup(this, productList, currentCart);
     }
     
     public void openSellerList(){
@@ -211,6 +260,16 @@ public class MasterClass {
                 sellerInventory.add(productList1);
             }
         }
+    }
+    
+    private Inventory getProduct(int id){
+        for (Inventory inv : productList) {
+            if (inv.product_ID == id) {
+                return inv;
+            }
+        }
+        
+        return null;
     }
     
     public User getSeller(int id){
