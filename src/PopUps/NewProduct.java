@@ -26,7 +26,7 @@ public class NewProduct {
     }
     
     public void openNewProduct(MasterClass master){
-        JFrame frame = new JFrame("Register");
+        JFrame frame = new JFrame("New Product");
 	frame.setSize(400, 450);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

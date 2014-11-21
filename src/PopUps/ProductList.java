@@ -92,10 +92,42 @@ public class ProductList {
                }
             });
         
-        JButton addCarButton = new JButton("Add to Cart");
-        addCarButton.setBounds(160, 20, 150, 30);
+        JButton detailsButton = new JButton("More Details");
+        detailsButton.setBounds(10, 50, 150, 30);
 
-        addCarButton.addActionListener(new ActionListener()
+        detailsButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                   if(products.getSelectedRow() > -1){
+                        
+                   }
+               }
+            });
+        
+        panel.add(detailsButton);
+        
+        JButton editCartButton = new JButton("Edit Cart");
+        editCartButton.setBounds(160, 50, 150, 30);
+
+        editCartButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                   if(products.getSelectedRow() > -1){
+                        master.openCartPopup();
+                   }
+               }
+            });
+        
+        panel.add(editCartButton);
+        
+        JButton addCartButton = new JButton("Add to Cart");
+        addCartButton.setBounds(160, 20, 150, 30);
+
+        addCartButton.addActionListener(new ActionListener()
             {
                @Override
                public void actionPerformed(ActionEvent event)
@@ -106,7 +138,7 @@ public class ProductList {
                }
             });
         
-        panel.add(addCarButton);
+        panel.add(addCartButton);
     }
     
     public void updateCart(Cart currentCart){

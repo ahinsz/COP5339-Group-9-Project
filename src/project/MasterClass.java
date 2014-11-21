@@ -32,6 +32,7 @@ public class MasterClass {
     private Register registerPopup;
     private SellerList sellerPopup;
     private ProductList productPopup;
+    private CartPopUp cartPopup;
     private Cart currentCart;
     
     public MasterClass() throws IOException, ClassNotFoundException{
@@ -43,6 +44,7 @@ public class MasterClass {
         sellerPopup = new SellerList();
         productPopup = new ProductList();
         editProductPopup = new EditProduct();
+        cartPopup = new CartPopUp();
 
         //initialize the lists
         userList = new ArrayList();
@@ -175,6 +177,20 @@ public class MasterClass {
         sellerPopup.refreshList(sellerInventory);
     }
     
+    public void removeProductFromCart(int id){
+        int pos = -1;
+        for(int i = 0; i < currentCart.itemList.size(); i++){
+            if(currentCart.itemList.get(i).productId == id)
+                pos = i;
+        }
+        
+        if(pos >= 0){
+            currentCart.itemList.remove(pos);
+            cartPopup.refreshList(currentCart, this);
+            productPopup.updateCart(currentCart);
+        }
+    }
+    
     public void createUser(User user) throws IOException{
         if(userList.size() > 0)
             user.userId = userList.get(userList.size() - 1).userId + 1;
@@ -205,6 +221,10 @@ public class MasterClass {
         }
         
         return false;
+    }
+    
+    public void openCartPopup(){
+        cartPopup.openPopup(this, currentCart);
     }
     
     public void openLoginPopup(){
