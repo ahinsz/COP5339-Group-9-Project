@@ -6,6 +6,8 @@
 package DataTypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import DataTypes.*;
 
 /**
  *
@@ -13,4 +15,7 @@ import java.io.Serializable;
  */
 public class Cart implements Serializable {
     public int CartID;
+    public int userID;
+    public ArrayList<CartItem> itemList;
+    public double total;
 }
