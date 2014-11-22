@@ -56,8 +56,8 @@ public class ProductList {
         cartTotal = new JLabel();
 
         //String[] columns = {"Product ID", "Name", "Seller", "Sell Price", "Quantity"};
-        String[] columns = {"Name", "Sell Price", "In Stock"};
-        tableModel = new DefaultTableModel(columns, 0);
+        String[] columns = {"ID","Name", "Sell Price", "In Stock"};        
+        tableModel = new DefaultTableModel(columns, 0);        
         products = new JTable(tableModel);
         scrollList = new JScrollPane(products);
         logOutButton = new JButton("Log Out");
@@ -111,7 +111,8 @@ public class ProductList {
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
             //Object[] item = {l.product_ID, l.Name, user.username, l.Sell_Price, l.Quantity};
-            Object[] item = {l.Name, l.Sell_Price, l.Quantity};
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
+            
             tableModel.addRow(item);
         }              
     }
