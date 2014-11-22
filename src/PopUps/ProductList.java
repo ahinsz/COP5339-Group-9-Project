@@ -9,6 +9,8 @@ import DataTypes.*;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import project.MasterClass;
 
@@ -44,7 +48,7 @@ public class ProductList {
         initComponents();
         addCompsToPanel();
         actionListeners();
-        
+                
         frame.add(panel);
         frame.setVisible(true);
     }
@@ -56,7 +60,7 @@ public class ProductList {
         cartTotal = new JLabel();
 
         //String[] columns = {"Product ID", "Name", "Seller", "Sell Price", "Quantity"};
-        String[] columns = {"ID","Name", "Sell Price", "In Stock"};        
+        String[] columns = {"ID","Name","In Stock"};        
         tableModel = new DefaultTableModel(columns, 0);        
         products = new JTable(tableModel);
         scrollList = new JScrollPane(products);
@@ -72,21 +76,21 @@ public class ProductList {
 
     private static void configComponents() {
 
-        frame.setSize(800, 800);
+        frame.setSize(680, 680);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         //menu bar
-        logOutButton.setBounds(10, 100, 150, 30);
-        
-        detailsButton.setBounds(10, 150, 150, 30);
-        addCartButton.setBounds(10, 180, 150, 30);       
-        editCartButton.setBounds(10, 210, 150, 30);
+        logOutButton.setBounds(10, 90, 150, 30);
+        detailsButton.setBounds(10, 170, 150, 30);
+        addCartButton.setBounds(10, 200, 150, 30);       
+        editCartButton.setBounds(10, 230, 150, 30);
         
         //cart info
-        cartAmount.setBounds(10, 20, 150, 30);
-        cartTotal.setBounds(10, 50, 150, 30);
-        scrollList.setBounds(300, 400, 375, 200);       
-        imageLabel.setBounds(300, 100, 350, 300);
+        cartAmount.setBounds(10, 20, 140, 30);
+        cartTotal.setBounds(10, 50, 140, 30);
+        scrollList.setBounds(260, 410, 375, 200);       
+        imageLabel.setBounds(270, 90, 350, 300);
         
         
         cartAmount.setText("Items in Cart: " + master.getCurrentCartTotal());        
@@ -95,7 +99,7 @@ public class ProductList {
         
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("images/samsung_lcd.jpg"));
+            img = ImageIO.read(new File("images/openbox.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,7 +115,7 @@ public class ProductList {
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
             //Object[] item = {l.product_ID, l.Name, user.username, l.Sell_Price, l.Quantity};
-            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
+            Object[] item = {l.product_ID, l.Name, l.Quantity};
             
             tableModel.addRow(item);
         }              
@@ -131,7 +135,6 @@ public class ProductList {
     }
     
     private static void actionListeners(){         
-
         
         logOutButton.addActionListener(new ActionListener() {
             @Override
@@ -164,7 +167,7 @@ public class ProductList {
                     master.addToCart(1, (int) products.getModel().getValueAt(products.getSelectedRow(), 0));
                 }
             }
-        });
+        });                 
     }
 
     public void updateCart(Cart currentCart, MasterClass master) {
@@ -181,7 +184,7 @@ public class ProductList {
         
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
-            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
+            Object[] item = {l.product_ID, l.Name, l.Quantity};
             tableModel.addRow(item);
         }
     }
@@ -197,7 +200,7 @@ public class ProductList {
     private static JTable products;
     private static JButton logOutButton;
     private static Cart currentCart;
-    private static JScrollPane scrollList;
+    private static JScrollPane scrollList;    
     private static JButton detailsButton;
     private static JButton editCartButton;
     private static JButton addCartButton;
