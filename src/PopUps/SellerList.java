@@ -35,7 +35,7 @@ public class SellerList {
     public void openPopup(final MasterClass master, ArrayList<Inventory> list){
         JFrame frame = new JFrame("Seller List");
 	frame.setSize(400, 450);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	JPanel panel = new JPanel();
 	frame.add(panel);

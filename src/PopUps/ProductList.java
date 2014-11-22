@@ -37,7 +37,7 @@ public class ProductList {
     public void openPopup(MasterClass master, ArrayList<Inventory> list, Cart currentCart){
         JFrame frame = new JFrame("Product List");
 	frame.setSize(410, 430);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	JPanel panel = new JPanel();
 	frame.add(panel);

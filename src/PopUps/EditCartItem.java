@@ -29,7 +29,7 @@ public class EditCartItem {
     public void openEditCartPopup(MasterClass master, CartItem cart){
         JFrame frame = new JFrame("Edit");
 	frame.setSize(400, 450);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	JPanel panel = new JPanel();
 	frame.add(panel);

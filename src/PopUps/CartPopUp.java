@@ -35,7 +35,7 @@ public class CartPopUp {
     public void openPopup(final MasterClass master, Cart cart){
         JFrame frame = new JFrame("Cart");
 	frame.setSize(410, 450);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	JPanel panel = new JPanel();
 	frame.add(panel);
