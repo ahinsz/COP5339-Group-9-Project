@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -370,6 +372,31 @@ public class MasterClass {
             total += item.amount;
         
         return total;
+    }
+    
+    public void CheckOut(){
+        for (CartItem item : currentCart.itemList) {
+            for(int j = 0; j < productList.size(); j++){
+                if(productList.get(j).product_ID == item.productId){
+                    Inventory oldItem = productList.get(j);
+                    oldItem.ItemsSold += item.amount;
+                    oldItem.Quantity -= item.amount;
+                    productList.set(j, oldItem);
+                    try {
+                        this.updateInventory();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MasterClass.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        //Here goes the implemuntating for User sales records
+        
+        currentCart = new Cart();
+        productPopup.updateCart(currentCart, this);
+        productPopup.refreshList(productList, this);
     }
     
 }

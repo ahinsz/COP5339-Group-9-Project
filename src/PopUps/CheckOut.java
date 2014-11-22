@@ -132,7 +132,8 @@ public class CheckOut {
                @Override
                public void actionPerformed(ActionEvent event)
                {
-                   
+                   master.CheckOut();
+                   frame.dispose();
                }
             });
         

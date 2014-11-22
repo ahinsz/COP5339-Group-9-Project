@@ -171,6 +171,20 @@ public class ProductList {
         cartAmount.setText("Cart: " + master.getCurrentCartTotal());
         cartTotal.setText("Total: " + currentCart.total);
     }
+    
+    public void refreshList(ArrayList<Inventory> list,MasterClass master){
+        if (tableModel.getRowCount() > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
+        
+        for (Inventory l : list) {
+            User user = master.getSeller(l.SellerID);
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
+            tableModel.addRow(item);
+        }
+    }
 
     private static MasterClass master;
     private static JFrame frame;
