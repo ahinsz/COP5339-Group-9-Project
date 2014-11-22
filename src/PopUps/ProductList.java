@@ -101,7 +101,7 @@ public class ProductList {
                public void actionPerformed(ActionEvent event)
                {
                    if(products.getSelectedRow() > -1){
-                        
+                        master.openMoreDetailsPopup(master.getProduct((int) products.getModel().getValueAt(products.getSelectedRow(), 0)));
                    }
                }
             });

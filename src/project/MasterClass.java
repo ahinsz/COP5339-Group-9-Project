@@ -34,6 +34,7 @@ public class MasterClass {
     private ProductList productPopup;
     private CartPopUp cartPopup;
     private EditCartItem cartEditPopup;
+    private MoreDetails detailPopup;
     private Cart currentCart;
     
     public MasterClass() throws IOException, ClassNotFoundException{
@@ -47,6 +48,7 @@ public class MasterClass {
         editProductPopup = new EditProduct();
         cartPopup = new CartPopUp();
         cartEditPopup = new EditCartItem();
+        detailPopup = new MoreDetails();
 
         //initialize the lists
         userList = new ArrayList();
@@ -257,28 +259,33 @@ public class MasterClass {
         cartEditPopup.openEditCartPopup(this, item);
     }
     
+    public void openEditProduct(int id){
+        Inventory item = productList.get(findProductinList(id));
+        editProductPopup.openPopup(this, item);
+    }
+    
     public void openLoginPopup(){
         loginPopup.openLogin(this);
     }
     
-    public void openRegistrationPopup(){
-        registerPopup.openPopup(this);
-    }
-    public void openProductList(){
-        productPopup.openPopup(this, productList, currentCart);
-    }
-    
-    public void openSellerList(){
-        sellerPopup.openPopup(this, sellerInventory);
+    public void openMoreDetailsPopup(Inventory item){
+        detailPopup.openPopup(this, item);
     }
     
     public void openNewProduct(){
         newProductPopup.openNewProduct(this);
     }
     
-    public void openEditProduct(int id){
-        Inventory item = productList.get(findProductinList(id));
-        editProductPopup.openPopup(this, item);
+    public void openProductList(){
+        productPopup.openPopup(this, productList, currentCart);
+    }
+    
+    public void openRegistrationPopup(){
+        registerPopup.openPopup(this);
+    }
+    
+    public void openSellerList(){
+        sellerPopup.openPopup(this, sellerInventory);
     }
     
     public boolean UserExists(String user){
@@ -312,7 +319,7 @@ public class MasterClass {
         }
     }
     
-    private Inventory getProduct(int id){
+    public Inventory getProduct(int id){
         for (Inventory inv : productList) {
             if (inv.product_ID == id) {
                 return inv;
