@@ -21,118 +21,156 @@ import project.MasterClass;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Login {
-	public Login() {
 
-	}
+    public Login() {
 
-	public void openLogin(MasterClass master) {
-		JFrame frame = new JFrame("Login");
-		frame.setSize(300, 150);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-		JPanel panel = new JPanel();
-		frame.add(panel);
-		placeComponents(panel, master, frame);
+    public void openLogin(MasterClass master) {
+        initComponents();
 
-		frame.setVisible(true);
-	}
+        this.master = master;
+        frame.add(panel);
+        frame.setVisible(true);
+    }
 
-	private static void placeComponents(final JPanel panel,
-			final MasterClass master, final JFrame frame) {
+    private void initComponents() {
 
-		panel.setLayout(null);
+        frame = new JFrame("OpenBox Login");
+        frame.setSize(300, 175);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel userLabel = new JLabel("User");
-		userLabel.setBounds(10, 10, 80, 25);
-		panel.add(userLabel);
+        panel = new JPanel();
+        userLabel = new JLabel("User");
+        userText = new JTextField(20);
+        passwordLabel = new JLabel("Password");
+        passwordText = new JPasswordField(20);
+        loginButton = new JButton("login");
+        registerButton = new JButton("register");
+        authorizeLabel = new JLabel("Check Credentials");
+        authorizeLabel.setVisible(false);
 
-		final JTextField userText = new JTextField(20);
-		userText.setBounds(100, 10, 160, 25);
-		panel.add(userText);
+        configComponents();
+        actionlisteners();
+        addCompsToPanel();
+    }
 
-		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(10, 40, 80, 25);
-		panel.add(passwordLabel);
+    private static void configComponents() {
 
-		final JPasswordField passwordText = new JPasswordField(20);
-		passwordText.setBounds(100, 40, 160, 25);
-		panel.add(passwordText);
+        userLabel.setBounds(10, 10, 80, 25);
+        userText.setBounds(100, 10, 160, 25);
+        passwordLabel.setBounds(10, 40, 80, 25);
+        passwordText.setBounds(100, 40, 160, 25);
+        loginButton.setBounds(10, 80, 80, 25);
+        registerButton.setBounds(180, 80, 80, 25);
+        authorizeLabel.setBounds(10, 110, 200, 20);           
+    }
 
-		JButton loginButton = new JButton("login");
-		loginButton.setBounds(10, 80, 80, 25);
+    private static void addCompsToPanel() {
 
-		loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				try {
-					if (master.LoginUser(userText.getText(), new String(
-							passwordText.getPassword()))) {
-						frame.dispose();
-						if (master.isSeller())
-							master.openSellerList();
-						else
-							master.openProductList();
-					}
-				} catch (IOException ex) {
-					Logger.getLogger(Login.class.getName()).log(Level.SEVERE,
-							null, ex);
-				}
-			}
+        panel.setLayout(null);
 
-		});
+        panel.add(userLabel);
+        panel.add(userText);
+        panel.add(passwordLabel);
+        panel.add(passwordText);
+        panel.add(authorizeLabel);
+        panel.add(loginButton);
+        panel.add(registerButton);
+    }
+    
+    private static void actionlisteners(){
+        
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
 
-		passwordText.addKeyListener(new KeyListener() {
+                authorizeLabel.setText("Authorizing...");
 
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+                authorizeLabel.setVisible(true);
+                try {
+                    if (master.LoginUser(userText.getText(), new String(
+                            passwordText.getPassword()))) {
+                        frame.dispose();
+                        if (master.isSeller()) {
+                            master.openSellerList();
+                        } else {
+                            master.openProductList();
+                        }
+                    } 
+                    else if(userText.getText().isEmpty() || passwordText.getText().isEmpty()){
+                        authorizeLabel.setText("");
+                        authorizeLabel.setText("Both fields must be filled out");
+                    }
+                    else {
+                        authorizeLabel.setText("");
+                        authorizeLabel.setText("Incorrect Username or Password");
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                }
+            }
 
-			}
+        });
 
-			@Override
-			public void keyPressed(KeyEvent arg0) {
+        passwordText.addKeyListener(new KeyListener() {
 
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					try {
-						if (master.LoginUser(userText.getText(), new String(
-								passwordText.getPassword()))) {
-							frame.dispose();
-							if (master.isSeller())
-								master.openSellerList();
-							else
-								master.openProductList();
-						}
-					} catch (IOException ex) {
-						Logger.getLogger(Login.class.getName()).log(
-								Level.SEVERE, null, ex);
-					}
-				}
-			}
+            @Override
+            public void keyReleased(KeyEvent arg0) {
+                // TODO Auto-generated method stub
 
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+            }
 
-			}
-		});
+            @Override
+            public void keyPressed(KeyEvent arg0) {
 
-		panel.add(loginButton);
+                if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        if (master.LoginUser(userText.getText(), new String(
+                                passwordText.getPassword()))) {
+                            frame.dispose();
+                            if (master.isSeller()) {
+                                master.openSellerList();
+                            } else {
+                                master.openProductList();
+                            }
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Login.class.getName()).log(
+                                Level.SEVERE, null, ex);
+                    }
+                }
+            }
 
-		JButton registerButton = new JButton("register");
-		registerButton.setBounds(180, 80, 80, 25);
+            @Override
+            public void keyTyped(KeyEvent arg0) {
+                // TODO Auto-generated method stub
 
-		registerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				frame.dispose();
-				master.openRegistrationPopup();
-			}
-		});
+            }
+        });
 
-		panel.add(registerButton);
-	}
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                frame.dispose();
+                master.openRegistrationPopup();
+            }
+        });
+    }
 
+    private static MasterClass master;
+    private static JFrame frame;
+    private static JPanel panel;
+    private static JLabel userLabel;
+    private static JTextField userText;
+    private static JLabel passwordLabel;
+    private static JPasswordField passwordText;
+    private static JButton loginButton;
+    private static JButton registerButton;
+    private static JLabel authorizeLabel;
 }
