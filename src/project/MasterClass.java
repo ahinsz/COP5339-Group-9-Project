@@ -33,6 +33,7 @@ public class MasterClass {
     private SellerList sellerPopup;
     private ProductList productPopup;
     private CartPopUp cartPopup;
+    private EditCartItem cartEditPopup;
     private Cart currentCart;
     
     public MasterClass() throws IOException, ClassNotFoundException{
@@ -45,6 +46,7 @@ public class MasterClass {
         productPopup = new ProductList();
         editProductPopup = new EditProduct();
         cartPopup = new CartPopUp();
+        cartEditPopup = new EditCartItem();
 
         //initialize the lists
         userList = new ArrayList();
@@ -89,7 +91,7 @@ public class MasterClass {
             oldItem.amount += amount;
             currentCart.itemList.set(pos, oldItem);
             recalculateCartTotal();
-            productPopup.updateCart(currentCart);
+            productPopup.updateCart(currentCart, this);
         }else{
             CartItem newItem = new CartItem();
             newItem.Name = item.Name;
@@ -100,7 +102,30 @@ public class MasterClass {
             
             currentCart.itemList.add(newItem);
             recalculateCartTotal();
-            productPopup.updateCart(currentCart);
+            productPopup.updateCart(currentCart, this);
+        }
+    }
+    
+    public boolean editCart(int amount, int id){
+        Inventory item = getProduct(id);
+        
+        if(amount <= 0){
+            this.removeProductFromCart(id);
+            return true;
+        }
+        
+        if(amount > item.Quantity)
+            return false;
+        else{
+            int pos = existsInCart(id);
+            CartItem oldItem = currentCart.itemList.get(pos);
+            
+            oldItem.amount = amount;
+            currentCart.itemList.set(pos, oldItem);
+            recalculateCartTotal();
+            productPopup.updateCart(currentCart, this);
+            cartPopup.refreshList(currentCart, this);
+            return true;
         }
     }
     
@@ -187,7 +212,7 @@ public class MasterClass {
         if(pos >= 0){
             currentCart.itemList.remove(pos);
             cartPopup.refreshList(currentCart, this);
-            productPopup.updateCart(currentCart);
+            productPopup.updateCart(currentCart, this);
         }
     }
     
@@ -210,6 +235,7 @@ public class MasterClass {
                 if(userList.get(i).password.equals(pass)){
                     userList.get(i).LastLogin = new Date();
                     this.updateUsers();
+                    currentCart = new Cart();
                     currentUser = userList.get(i);
                     if(currentUser.isSeller)
                     {
@@ -225,6 +251,10 @@ public class MasterClass {
     
     public void openCartPopup(){
         cartPopup.openPopup(this, currentCart);
+    }
+    
+    public void openEditCartPopup(CartItem item){
+        cartEditPopup.openEditCartPopup(this, item);
     }
     
     public void openLoginPopup(){
@@ -292,6 +322,16 @@ public class MasterClass {
         return null;
     }
     
+    public CartItem getCartProduct(int id){
+        for (CartItem c : currentCart.itemList) {
+            if (c.productId == id) {
+                return c;
+            }
+        }
+        
+        return null;
+    }
+    
     public User getSeller(int id){
         for (User user : userList) {
             if (user.userId == id) {
@@ -309,6 +349,14 @@ public class MasterClass {
         }
         
         return -1;
+    }
+    
+    public int getCurrentCartTotal(){
+        int total = 0;
+        for(CartItem item: currentCart.itemList)
+            total += item.amount;
+        
+        return total;
     }
     
 }

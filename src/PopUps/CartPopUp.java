@@ -34,7 +34,7 @@ public class CartPopUp {
     
     public void openPopup(final MasterClass master, Cart cart){
         JFrame frame = new JFrame("Cart");
-	frame.setSize(400, 450);
+	frame.setSize(410, 450);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	JPanel panel = new JPanel();
@@ -107,9 +107,11 @@ public class CartPopUp {
                @Override
                public void actionPerformed(ActionEvent event)
                {
-                   if(products.getSelectedRow() > -1){
-                        
-                   }
+                    String result = products.getModel().getValueAt(products.getSelectedRow(), 0).toString();
+                    if(!result.isEmpty())
+                    if(products.getSelectedRow() > -1){
+                         master.openEditCartPopup(master.getCartProduct((int) products.getModel().getValueAt(products.getSelectedRow(), 0)));
+                    }
                }
             });
         

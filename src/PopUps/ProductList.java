@@ -50,7 +50,7 @@ public class ProductList {
         cartAmount = new JLabel();
         cartTotal = new JLabel();
         
-        cartAmount.setText("Cart: " + Integer.toString(currentCart.itemList.size()));
+        cartAmount.setText("Cart: " + master.getCurrentCartTotal());
         cartAmount.setBounds(315, 20, 150, 30);
         panel.add(cartAmount);
         
@@ -141,8 +141,8 @@ public class ProductList {
         panel.add(addCartButton);
     }
     
-    public void updateCart(Cart currentCart){
-        cartAmount.setText("Cart: " + currentCart.itemList.size());
+    public void updateCart(Cart currentCart, MasterClass master){
+        cartAmount.setText("Cart: " + master.getCurrentCartTotal());
         cartTotal.setText("Total: " + currentCart.total);
     }
     
