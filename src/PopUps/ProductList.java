@@ -6,15 +6,22 @@
 package PopUps;
 
 import DataTypes.*;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import project.MasterClass;
 
@@ -30,9 +37,9 @@ public class ProductList {
 
     public void openPopup(MasterClass master, ArrayList<Inventory> list, Cart currentCart) {
 
-        this.master = master;
-        this.list = list;
-        this.currentCart = currentCart;
+        ProductList.master = master;
+        ProductList.list = list;
+        ProductList.currentCart = currentCart;
 
         initComponents();
         addCompsToPanel();
@@ -48,7 +55,8 @@ public class ProductList {
         cartAmount = new JLabel();
         cartTotal = new JLabel();
 
-        String[] columns = {"Product ID", "Name", "Seller", "Sell Price", "Quantity"};
+        //String[] columns = {"Product ID", "Name", "Seller", "Sell Price", "Quantity"};
+        String[] columns = {"Name", "Sell Price", "In Stock"};
         tableModel = new DefaultTableModel(columns, 0);
         products = new JTable(tableModel);
         scrollList = new JScrollPane(products);
@@ -56,51 +64,74 @@ public class ProductList {
         detailsButton = new JButton("More Details");
         editCartButton = new JButton("Edit Cart");
         addCartButton = new JButton("Add to Cart");
-
+        image = new ImageIcon("images/samsung_lcd.jpg");      
+        
+        imageLabel = new JLabel();
         configComponents();
     }
 
-    //private static void placeComponents(JPanel panel,final MasterClass master,final JFrame frame,ArrayList<Inventory> list, final Cart currentCart){
     private static void configComponents() {
 
-        frame.setSize(410, 430);
+        frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        cartAmount.setText("Cart: " + master.getCurrentCartTotal());
-        cartAmount.setBounds(315, 20, 150, 30);
-        cartTotal.setText("Total: " + Double.toString(currentCart.total));
-        cartTotal.setBounds(315, 50, 150, 30);
-        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setBounds(10, 100, 375, 200);
-        logOutButton.setBounds(10, 20, 150, 30);
-        detailsButton.setBounds(10, 50, 150, 30);
-        editCartButton.setBounds(160, 50, 150, 30);
-        addCartButton.setBounds(160, 20, 150, 30);
+        
+        //menu bar
+        logOutButton.setBounds(10, 100, 150, 30);
+        
+        detailsButton.setBounds(10, 150, 150, 30);
+        addCartButton.setBounds(10, 180, 150, 30);       
+        editCartButton.setBounds(10, 210, 150, 30);
+        
+        //cart info
+        cartAmount.setBounds(10, 20, 150, 30);
+        cartTotal.setBounds(10, 50, 150, 30);
+        scrollList.setBounds(300, 400, 375, 200);       
+        imageLabel.setBounds(300, 100, 350, 300);
+        
+        
+        cartAmount.setText("Items in Cart: " + master.getCurrentCartTotal());        
+        cartTotal.setText("Total: " + Double.toString(currentCart.total));        
+        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);        
+        
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("images/samsung_lcd.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image dimg = img.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
+        Image.SCALE_SMOOTH);
+        
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        imageLabel.setIcon(imageIcon);
+        //imageLabel.setIcon(image);
+        imageLabel.setBorder(LineBorder.createBlackLineBorder());
+        imageLabel.setVisible(true);
         
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
-            Object[] item = {l.product_ID, l.Name, user.username, l.Sell_Price, l.Quantity};
+            //Object[] item = {l.product_ID, l.Name, user.username, l.Sell_Price, l.Quantity};
+            Object[] item = {l.Name, l.Sell_Price, l.Quantity};
             tableModel.addRow(item);
         }              
     }
 
     private static void addCompsToPanel() {
 
-        panel.add(cartAmount);
-        panel.add(cartTotal);
         panel.setLayout(null);
+        panel.add(cartAmount);
+        panel.add(cartTotal);        
         panel.add(scrollList);
         panel.add(logOutButton);
         panel.add(detailsButton);
         panel.add(editCartButton);
-        panel.add(addCartButton);
-        panel.add(cartAmount);
-        panel.add(cartTotal);
-        panel.setLayout(null);
-        panel.add(scrollList);
+        panel.add(addCartButton);       
+        panel.add(imageLabel);        
     }
     
     private static void actionListeners(){         
 
+        
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -146,6 +177,8 @@ public class ProductList {
     private static DefaultTableModel tableModel;
     private static JLabel cartAmount;
     private static JLabel cartTotal;
+    private static JLabel imageLabel;
+    private static ImageIcon image;
     private static JTable products;
     private static JButton logOutButton;
     private static Cart currentCart;
