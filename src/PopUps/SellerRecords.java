@@ -1,0 +1,78 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package PopUps;
+
+import DataTypes.Inventory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Andrew
+ */
+public class SellerRecords {
+    
+    public SellerRecords(){
+        
+    }
+    
+    public void openPopup(ArrayList<Inventory> list){
+        JFrame frame = new JFrame("Seller Records");
+	frame.setSize(670, 330);
+	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	JPanel panel = new JPanel();
+	frame.add(panel);
+        placeComponents(panel, frame, list);
+        
+	frame.setVisible(true);
+    }
+    
+    private void placeComponents(JPanel panel,final JFrame frame, ArrayList<Inventory> list){
+        panel.setLayout(null);
+        
+        String[] columns = {"ID","Name", "Sell", "Invoice", "Available", "Sold", "Revenues", "Cost", "Profit"};
+        
+        DefaultTableModel tableModel  = new DefaultTableModel(columns, 0);
+        
+        final JTable products = new JTable(tableModel);
+        
+        for (Inventory l : list) {
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Invoice_Price, l.Quantity, 
+                (int) l.ItemsSold, l.Sell_Price * l.ItemsSold, l.Invoice_Price * (l.Quantity + (int)l.ItemsSold), 
+                (l.Sell_Price * l.ItemsSold) - (l.Invoice_Price * (l.Quantity + (int)l.ItemsSold))};
+            tableModel.addRow(item);
+        }
+        
+        JScrollPane scrollList = new JScrollPane(products);
+        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollList.setBounds(10, 20, 635, 200);
+
+        panel.add(scrollList);
+        
+        JButton addProductButton = new JButton("Exit");
+        addProductButton.setBounds(10, 250, 150, 30);
+
+        addProductButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                   frame.dispose();
+               }
+            });
+        
+        panel.add(addProductButton);
+    }
+    
+}

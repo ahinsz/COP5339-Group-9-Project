@@ -60,7 +60,7 @@ public class SellerList {
         
         JScrollPane scrollList = new JScrollPane(products);
         scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setBounds(10, 100, 360, 200);
+        scrollList.setBounds(10, 150, 360, 200);
 
         panel.add(scrollList);
         
@@ -123,6 +123,19 @@ public class SellerList {
                {
                     master.openLoginPopup();
                     frame.dispose();
+               }
+            });
+        
+        JButton viewSalesButton = new JButton("View Sales");
+        viewSalesButton.setBounds(10, 80, 150, 30);
+        panel.add(viewSalesButton);
+        
+        viewSalesButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                    master.openSellerRecords();
                }
             });
         
