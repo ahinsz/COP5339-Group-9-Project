@@ -116,9 +116,7 @@ public class ProductList {
                @Override
                public void actionPerformed(ActionEvent event)
                {
-                   if(products.getSelectedRow() > -1){
-                        master.openCartPopup();
-                   }
+                   master.openCartPopup();
                }
             });
         

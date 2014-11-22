@@ -125,9 +125,8 @@ public class CartPopUp {
                @Override
                public void actionPerformed(ActionEvent event)
                {
-                   if(products.getSelectedRow() > -1){
-                        
-                   }
+                   frame.dispose();
+                   master.openCheckOutPopup();
                }
             });
         

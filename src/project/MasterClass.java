@@ -35,6 +35,7 @@ public class MasterClass {
     private CartPopUp cartPopup;
     private EditCartItem cartEditPopup;
     private MoreDetails detailPopup;
+    private CheckOut CheckOutPopup; 
     private Cart currentCart;
     
     public MasterClass() throws IOException, ClassNotFoundException{
@@ -49,6 +50,7 @@ public class MasterClass {
         cartPopup = new CartPopUp();
         cartEditPopup = new EditCartItem();
         detailPopup = new MoreDetails();
+        CheckOutPopup = new CheckOut();
 
         //initialize the lists
         userList = new ArrayList();
@@ -253,6 +255,10 @@ public class MasterClass {
     
     public void openCartPopup(){
         cartPopup.openPopup(this, currentCart);
+    }
+    
+    public void openCheckOutPopup(){
+        CheckOutPopup.openPopup(this, currentCart);
     }
     
     public void openEditCartPopup(CartItem item){
