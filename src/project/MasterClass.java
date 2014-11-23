@@ -7,6 +7,7 @@ package project;
 
 import PopUps.*;
 import DataTypes.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class MasterClass {
     private CheckOut CheckOutPopup; 
     private Cart currentCart;
     private SellerRecords salesRecordPopup;
+    private InvoicesPopup invoicePopup;
     
     public MasterClass() throws IOException, ClassNotFoundException{
         
@@ -55,6 +57,7 @@ public class MasterClass {
         detailPopup = new MoreDetails();
         CheckOutPopup = new CheckOut();
         salesRecordPopup = new SellerRecords();
+        invoicePopup = new InvoicesPopup();
 
         //initialize the lists
         userList = new ArrayList();
@@ -70,16 +73,31 @@ public class MasterClass {
         */
         
         //loads all users
-        ObjectInputStream in = new ObjectInputStream(
-            new FileInputStream("users.dat"));
-        userList = (ArrayList<User>)in.readObject();
-        in.close();
+        File f = new File("users.dat"); //to check if the file exists
+        if(f.exists() && !f.isDirectory()){
+            ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("users.dat"));
+            userList = (ArrayList<User>)in.readObject();
+            in.close();
+        }
         
         //load all products
-        in = new ObjectInputStream(
-            new FileInputStream("products.dat"));
-        productList = (ArrayList<Inventory>)in.readObject();
-        in.close();
+        
+        f = new File("products.dat");
+        if(f.exists() && !f.isDirectory()){
+            ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("products.dat"));
+            productList = (ArrayList<Inventory>)in.readObject();
+            in.close();
+        }
+        
+        f = new File("invoices.dat");
+        if(f.exists() && !f.isDirectory()){
+            ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("invoices.dat"));
+            invoiceList = (ArrayList<Invoices>)in.readObject();
+            in.close();
+        }
         
     }
     
@@ -111,6 +129,28 @@ public class MasterClass {
             currentCart.itemList.add(newItem);
             recalculateCartTotal();
             productPopup.updateCart(currentCart, this);
+        }
+    }
+    
+    public void createInvoice(){
+        Invoices in = new Invoices();
+        in.Amount = this.getCurrentCartTotal();
+        in.CustomerId = currentUser.userId;
+        in.Date_of_Purchase = new Date();
+        in.total = currentCart.total;
+        in.Products = currentCart.itemList;
+        
+        
+        if(invoiceList.size() > 0)
+            in.InvoiceID = invoiceList.get(invoiceList.size() - 1).InvoiceID + 1;
+        else
+            in.InvoiceID = 1;
+        
+        invoiceList.add(in);
+        try {
+            this.updateInvoices();
+        } catch (IOException ex) {
+            Logger.getLogger(MasterClass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -169,6 +209,18 @@ public class MasterClass {
             ObjectOutputStream out = new ObjectOutputStream(
                     new FileOutputStream("users.dat"));
             out.writeObject(userList);
+            out.close();
+        } catch(IOException e){
+            throw e;
+        }
+        
+    }
+    
+    public void updateInvoices() throws IOException{
+        try{   
+            ObjectOutputStream out = new ObjectOutputStream(
+                    new FileOutputStream("invoices.dat"));
+            out.writeObject(invoiceList);
             out.close();
         } catch(IOException e){
             throw e;
@@ -272,6 +324,15 @@ public class MasterClass {
     public void openEditProduct(int id){
         Inventory item = productList.get(findProductinList(id));
         editProductPopup.openPopup(this, item);
+    }
+    
+    public void openInvoicePopup(){
+        ArrayList<Invoices> userInvoices = new ArrayList();
+        for(Invoices in: invoiceList){
+            if(in.CustomerId == currentUser.userId)
+                userInvoices.add(in);
+        }
+        invoicePopup.openPopup(userInvoices, this);
     }
     
     public void openLoginPopup(){
@@ -400,6 +461,7 @@ public class MasterClass {
         
         //Here goes the implemuntating for User sales records
         
+        this.createInvoice();
         currentCart = new Cart();
         productPopup.updateCart(currentCart, this);
         productPopup.refreshList(productList, this);

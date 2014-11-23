@@ -5,11 +5,13 @@
  */
 package DataTypes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Andrew
  */
-public class CartItem {
+public class CartItem implements Serializable{
     public int productId;
     public int SellerID;
     public int amount;

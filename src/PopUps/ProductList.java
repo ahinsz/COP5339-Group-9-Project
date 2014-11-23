@@ -68,6 +68,8 @@ public class ProductList {
         detailsButton = new JButton("More Details");
         editCartButton = new JButton("Edit Cart");
         addCartButton = new JButton("Add to Cart");
+        checkOutButton = new JButton("CheckOut");
+        invoiceButton = new JButton("Purchases");
         image = new ImageIcon("images/samsung_lcd.jpg");      
         
         imageLabel = new JLabel();
@@ -85,6 +87,8 @@ public class ProductList {
         detailsButton.setBounds(10, 170, 150, 30);
         addCartButton.setBounds(10, 200, 150, 30);       
         editCartButton.setBounds(10, 230, 150, 30);
+        checkOutButton.setBounds(10, 260, 150, 30);
+        invoiceButton.setBounds(10, 290, 150, 30);
         
         //cart info
         cartAmount.setBounds(10, 20, 140, 30);
@@ -131,6 +135,8 @@ public class ProductList {
         panel.add(detailsButton);
         panel.add(editCartButton);
         panel.add(addCartButton);       
+        panel.add(checkOutButton);
+        panel.add(invoiceButton);
         panel.add(imageLabel);        
     }
     
@@ -167,11 +173,25 @@ public class ProductList {
                     master.addToCart(1, (int) products.getModel().getValueAt(products.getSelectedRow(), 0));
                 }
             }
-        });                 
+        });
+        
+        checkOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                master.openCheckOutPopup();
+            }
+        });
+        
+        invoiceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                master.openInvoicePopup();
+            }
+        });
     }
 
     public void updateCart(Cart currentCart, MasterClass master) {
-        cartAmount.setText("Cart: " + master.getCurrentCartTotal());
+        cartAmount.setText("Items in Cart: " + master.getCurrentCartTotal());
         cartTotal.setText("Total: " + currentCart.total);
     }
     
@@ -204,5 +224,7 @@ public class ProductList {
     private static JButton detailsButton;
     private static JButton editCartButton;
     private static JButton addCartButton;
+    private static JButton checkOutButton;
+    private static JButton invoiceButton;
     private static ArrayList<Inventory> list;
 }

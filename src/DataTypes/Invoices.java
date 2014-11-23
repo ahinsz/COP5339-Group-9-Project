@@ -14,11 +14,9 @@ import java.util.*;
  */
 public class Invoices implements Serializable{
     public int InvoiceID;
-    public int SaleID;
     public int CustomerId;
-    public int ProductId;
+    public ArrayList<CartItem> Products;
     public int Amount;
-    public double Price;
+    public double total;
     public Date Date_of_Purchase;
-    public int CartID;
 }
