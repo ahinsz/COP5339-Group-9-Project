@@ -34,7 +34,7 @@ public class SellerList {
     
     public void openPopup(final MasterClass master, ArrayList<Inventory> list){
         JFrame frame = new JFrame("Seller List");
-	frame.setSize(400, 450);
+	frame.setSize(600, 300);
 	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	JPanel panel = new JPanel();
@@ -60,12 +60,26 @@ public class SellerList {
         
         JScrollPane scrollList = new JScrollPane(products);
         scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollList.setBounds(10, 150, 360, 200);
+        scrollList.setBounds(180 , 20, 395, 200);
 
         panel.add(scrollList);
         
+        JButton logOutButton = new JButton("Log Out");
+        logOutButton.setBounds(10, 20, 150, 30);
+        panel.add(logOutButton);
+        
+        logOutButton.addActionListener(new ActionListener()
+            {
+               @Override
+               public void actionPerformed(ActionEvent event)
+               {
+                    master.openLoginPopup();
+                    frame.dispose();
+               }
+            });
+        
         JButton addProductButton = new JButton("Add New Product");
-        addProductButton.setBounds(10, 20, 150, 30);
+        addProductButton.setBounds(10, 50, 150, 30);
 
         addProductButton.addActionListener(new ActionListener()
             {
@@ -79,7 +93,7 @@ public class SellerList {
         panel.add(addProductButton);
         
         JButton editProductButton = new JButton("Edit Product");
-        editProductButton.setBounds(10, 50, 150, 30);
+        editProductButton.setBounds(10, 80, 150, 30);
         panel.add(editProductButton);
         
         editProductButton.addActionListener(new ActionListener()
@@ -94,7 +108,7 @@ public class SellerList {
             });
         
         JButton removeProductButton = new JButton("Delete Product");
-        removeProductButton.setBounds(160, 20, 150, 30);
+        removeProductButton.setBounds(10, 110, 150, 30);
         panel.add(removeProductButton);
         
         removeProductButton.addActionListener(new ActionListener()
@@ -112,22 +126,10 @@ public class SellerList {
                }
             });
         
-        JButton logOutButton = new JButton("Log Out");
-        logOutButton.setBounds(160, 50, 150, 30);
-        panel.add(logOutButton);
         
-        logOutButton.addActionListener(new ActionListener()
-            {
-               @Override
-               public void actionPerformed(ActionEvent event)
-               {
-                    master.openLoginPopup();
-                    frame.dispose();
-               }
-            });
         
         JButton viewSalesButton = new JButton("View Sales");
-        viewSalesButton.setBounds(10, 80, 150, 30);
+        viewSalesButton.setBounds(10, 140, 150, 30);
         panel.add(viewSalesButton);
         
         viewSalesButton.addActionListener(new ActionListener()
