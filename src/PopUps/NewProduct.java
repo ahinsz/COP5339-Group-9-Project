@@ -42,7 +42,7 @@ public class NewProduct {
 		panel.setLayout(null);
 
 		final JLabel productLabel = new JLabel("Product Name");
-		productLabel.setBounds(10, 10, 80, 25);
+		productLabel.setBounds(10, 10, 100, 25);
 		panel.add(productLabel);
 
 		final JTextField nameText = new JTextField(100);
@@ -88,7 +88,7 @@ public class NewProduct {
 		panel.add(quantityText);
 		
 		JButton registerButton = new JButton("Add Product");
-		registerButton.setBounds(10, 370, 80, 25);
+		registerButton.setBounds(10, 370, 150, 25);
                 
                 registerButton.addActionListener(new ActionListener(){
 

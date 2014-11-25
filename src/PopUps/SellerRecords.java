@@ -40,6 +40,9 @@ public class SellerRecords {
     
     private void placeComponents(JPanel panel,final JFrame frame, ArrayList<Inventory> list){
         panel.setLayout(null);
+        double totalCost = 0;
+        double totalRevenue = 0;
+        double totalProfit = 0;
         
         String[] columns = {"ID","Name", "Sell", "Invoice", "Available", "Sold", "Revenues", "Cost", "Profit"};
         
@@ -52,7 +55,13 @@ public class SellerRecords {
                 (int) l.ItemsSold, l.Sell_Price * l.ItemsSold, l.Invoice_Price * (l.Quantity + (int)l.ItemsSold), 
                 (l.Sell_Price * l.ItemsSold) - (l.Invoice_Price * (l.Quantity + (int)l.ItemsSold))};
             tableModel.addRow(item);
+            totalRevenue += l.Sell_Price * l.ItemsSold;
+            totalCost += l.Invoice_Price * (l.Quantity + (int)l.ItemsSold);
+            totalProfit += (l.Sell_Price * l.ItemsSold) - (l.Invoice_Price * (l.Quantity + (int)l.ItemsSold));
         }
+        
+        Object[] total = {"","Total","","","","",totalRevenue,totalCost,totalProfit};
+        tableModel.addRow(total);
         
         JScrollPane scrollList = new JScrollPane(products);
         scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

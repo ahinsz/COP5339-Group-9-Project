@@ -60,7 +60,7 @@ public class ProductList {
         cartTotal = new JLabel();
 
         //String[] columns = {"Product ID", "Name", "Seller", "Sell Price", "Quantity"};
-        String[] columns = {"ID","Name","In Stock"};        
+        String[] columns = {"ID","Name","Price","In Stock"};        
         tableModel = new DefaultTableModel(columns, 0);        
         products = new JTable(tableModel);
         scrollList = new JScrollPane(products);
@@ -78,7 +78,7 @@ public class ProductList {
 
     private static void configComponents() {
 
-        frame.setSize(680, 680);
+        frame.setSize(650, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
@@ -93,7 +93,8 @@ public class ProductList {
         //cart info
         cartAmount.setBounds(10, 20, 140, 30);
         cartTotal.setBounds(10, 50, 140, 30);
-        scrollList.setBounds(260, 410, 375, 200);       
+        //scrollList.setBounds(260, 410, 375, 200);
+        scrollList.setBounds(200, 90, 400, 230);
         imageLabel.setBounds(270, 90, 350, 300);
         
         
@@ -101,7 +102,7 @@ public class ProductList {
         cartTotal.setText("Total: " + Double.toString(currentCart.total));        
         scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);        
         
-        BufferedImage img = null;
+        /*BufferedImage img = null;
         try {
             img = ImageIO.read(new File("images/openbox.jpg"));
         } catch (IOException e) {
@@ -114,12 +115,12 @@ public class ProductList {
         imageLabel.setIcon(imageIcon);
         //imageLabel.setIcon(image);
         imageLabel.setBorder(LineBorder.createBlackLineBorder());
-        imageLabel.setVisible(true);
+        imageLabel.setVisible(true);*/
         
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
             //Object[] item = {l.product_ID, l.Name, user.username, l.Sell_Price, l.Quantity};
-            Object[] item = {l.product_ID, l.Name, l.Quantity};
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
             
             tableModel.addRow(item);
         }              
@@ -204,7 +205,7 @@ public class ProductList {
         
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
-            Object[] item = {l.product_ID, l.Name, l.Quantity};
+            Object[] item = {l.product_ID, l.Name, l.Sell_Price, l.Quantity};
             tableModel.addRow(item);
         }
     }
