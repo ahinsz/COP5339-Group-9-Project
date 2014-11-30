@@ -27,8 +27,13 @@ public class MasterClass {
     private ArrayList<Inventory> productList;
     private ArrayList<Invoices> invoiceList;
     private ArrayList<SalesData> salesList;
-    private User currentUser;
     private ArrayList<Inventory> sellerInventory;
+    
+    //Current user and cart
+    private User currentUser;
+    private Cart currentCart;
+    
+    //Creates the variables to hold the popup classes
     private Login loginPopup;
     private NewProduct newProductPopup;
     private EditProduct editProductPopup;
@@ -39,10 +44,14 @@ public class MasterClass {
     private EditCartItem cartEditPopup;
     private MoreDetails detailPopup;
     private CheckOut CheckOutPopup; 
-    private Cart currentCart;
     private SellerRecords salesRecordPopup;
     private InvoicesPopup invoicePopup;
     
+    /**
+     * Default Constructor that initializes the lists, popups, and the cart
+     * @throws IOException There is a problem while reading from the dat files
+     * @throws ClassNotFoundException The class type is not known at time of compile
+     */
     public MasterClass() throws IOException, ClassNotFoundException{
         
         //initialize the popups
@@ -82,7 +91,6 @@ public class MasterClass {
         }
         
         //load all products
-        
         f = new File("products.dat");
         if(f.exists() && !f.isDirectory()){
             ObjectInputStream in = new ObjectInputStream(
@@ -91,6 +99,7 @@ public class MasterClass {
             in.close();
         }
         
+        //loads all invoices
         f = new File("invoices.dat");
         if(f.exists() && !f.isDirectory()){
             ObjectInputStream in = new ObjectInputStream(
@@ -101,6 +110,11 @@ public class MasterClass {
         
     }
     
+    /**
+     * assToCart handles adding items to the shopping cart. It takes the id of the product and amount given then adds to the currentCart
+     * @param amount The amount to be added to the shopping cart
+     * @param id The id of the product
+     */
     public void addToCart(int amount, int id){
         Inventory item = getProduct(id);
         
@@ -132,6 +146,9 @@ public class MasterClass {
         }
     }
     
+    /**
+     * Creates an invoice for the customer when the customer finishes checkout and stores it in the dat file
+     */
     public void createInvoice(){
         Invoices in = new Invoices();
         in.Amount = this.getCurrentCartTotal();
@@ -154,6 +171,12 @@ public class MasterClass {
         }
     }
     
+    /**
+     * Edit the amount of an item in the cart by using the product id
+     * @param amount The new amount of the product
+     * @param id 
+     * @return Returns true if change is completed, false if the amount given is more than its quantity
+     */
     public boolean editCart(int amount, int id){
         Inventory item = getProduct(id);
         
@@ -177,6 +200,9 @@ public class MasterClass {
         }
     }
     
+    /**
+     * It recalculates the total price of the cart
+     */
     private void recalculateCartTotal(){
         currentCart.total = 0;
         for(CartItem item: currentCart.itemList){
@@ -184,6 +210,11 @@ public class MasterClass {
         }
     }
     
+    /**
+     * Checks to see if product is Cart and returns the position in the productList
+     * @param id The id of the product
+     * @return Returns the position of the product
+     */
     private int existsInCart(int id){
         for(int i = 0; i < currentCart.itemList.size(); i++){
             if(currentCart.itemList.get(i).productId == id)
@@ -192,6 +223,10 @@ public class MasterClass {
         return -1;
     }
     
+    /**
+     * Updates the product dat file
+     * @throws IOException If unable to write to file an exception will appear
+     */
     public void updateInventory() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
@@ -204,6 +239,10 @@ public class MasterClass {
         
     }
     
+    /**
+     * Updates the user dat file
+     * @throws IOException If unable to write to file an exception will appear
+     */
     public void updateUsers() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
@@ -216,6 +255,10 @@ public class MasterClass {
         
     }
     
+    /**
+     * Updates the Invoice dat file
+     * @throws IOException If unable to write to file an exception will appear
+     */
     public void updateInvoices() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
@@ -228,6 +271,11 @@ public class MasterClass {
         
     }
     
+    /**
+     * Creates a new product and stores it in inventory
+     * @param item The new item being added
+     * @throws IOException If an error occurs when updating the Inventory
+     */
     public void createProduct(Inventory item) throws IOException{
         if(productList.size() > 0)
             item.product_ID = productList.get(productList.size() - 1).product_ID + 1;
@@ -242,6 +290,11 @@ public class MasterClass {
         this.updateInventory();
     }
     
+    /**
+     * Edits a  product and stores it in inventory
+     * @param item The item being edited
+     * @throws IOException If an error occurs when updating the Inventory
+     */
     public void updateProduct(Inventory item) throws IOException{
         int local = findProductinList(item.product_ID);
         if(local >= 0)
@@ -252,6 +305,11 @@ public class MasterClass {
         sellerPopup.refreshList(sellerInventory);
     }
     
+    /**
+     * Removes product from inventory
+     * @param id The id of the product
+     * @throws IOException If an error occurs when updating the Inventory
+     */
     public void removeProduct(int id) throws IOException{
         int local = findProductinList(id);
         if(local >= 0)
@@ -262,6 +320,10 @@ public class MasterClass {
         sellerPopup.refreshList(sellerInventory);
     }
     
+    /**
+     * Remove a product from cart
+     * @param id The id of the product
+     */
     public void removeProductFromCart(int id){
         int pos = -1;
         for(int i = 0; i < currentCart.itemList.size(); i++){
@@ -276,6 +338,11 @@ public class MasterClass {
         }
     }
     
+    /**
+     * Creates a new user
+     * @param user The user information
+     * @throws IOException If unable to update user dat file
+     */
     public void createUser(User user) throws IOException{
         if(userList.size() > 0)
             user.userId = userList.get(userList.size() - 1).userId + 1;
@@ -288,6 +355,13 @@ public class MasterClass {
         this.updateUsers();
     }
     
+    /**
+     * Logs the user in if credentials are valid and creates a new shopping cart
+     * @param user Username
+     * @param pass Password
+     * @return Returns true if credentials are valid and false when not
+     * @throws IOException 
+     */
     public boolean LoginUser(String user, String pass) throws IOException{
         
         for(int i = 0; i < userList.size(); i++){
@@ -309,23 +383,38 @@ public class MasterClass {
         return false;
     }
     
+    /**
+     * Open cart popup
+     */
     public void openCartPopup(){
         cartPopup.openPopup(this, currentCart);
     }
     
+    /**
+     * Open checkout popup
+     */
     public void openCheckOutPopup(){
         CheckOutPopup.openPopup(this, currentCart);
     }
     
+    /**
+     * Open edit edit cart popup
+     */
     public void openEditCartPopup(CartItem item){
         cartEditPopup.openEditCartPopup(this, item);
     }
     
+    /**
+     * Open edit product popup
+     */
     public void openEditProduct(int id){
         Inventory item = productList.get(findProductinList(id));
         editProductPopup.openPopup(this, item);
     }
     
+    /**
+     * Open invoice popup
+     */
     public void openInvoicePopup(){
         ArrayList<Invoices> userInvoices = new ArrayList();
         for(Invoices in: invoiceList){
@@ -335,34 +424,60 @@ public class MasterClass {
         invoicePopup.openPopup(userInvoices, this);
     }
     
+    /**
+     * Open login popup
+     */
     public void openLoginPopup(){
         loginPopup.openLogin(this);
     }
     
+    /**
+     * Open more details popup
+     */
     public void openMoreDetailsPopup(Inventory item){
         detailPopup.openPopup(this, item);
     }
     
+    /**
+     * Open new product popup
+     */
     public void openNewProduct(){
         newProductPopup.openNewProduct(this);
     }
     
+    /**
+     * Open productList popup
+     */
     public void openProductList(){
         productPopup.openPopup(this, productList, currentCart);
     }
     
+    /**
+     * Open registration popup
+     */
     public void openRegistrationPopup(){
         registerPopup.openPopup(this);
     }
     
+    /**
+     * Open sellerList popup
+     */
     public void openSellerList(){
         sellerPopup.openPopup(this, sellerInventory);
     }
     
+    /**
+     * Open seller records popup
+     */
     public void openSellerRecords(){
         salesRecordPopup.openPopup(sellerInventory);
     }
     
+    /**
+     * Check to see if existing username exists
+     * @param user The username being checked
+     * @return Return true if username is in use and false if it exists
+     */
     public boolean UserExists(String user){
         for(int i = 0; i < userList.size(); i++){
             if(userList.get(i).username.equals(user))
@@ -372,6 +487,11 @@ public class MasterClass {
         return false;
     }
     
+    /**
+     * Check to see if existing email is in use
+     * @param email The email being checked
+     * @return Return true if email is in use and false if it is in use
+     */
     public boolean EmailExists(String email){
         for(int i = 0; i < userList.size(); i++){
             if(userList.get(i).email.equals(email))
@@ -381,10 +501,17 @@ public class MasterClass {
         return false;
     }
     
+    /**
+     * Returns the isSeller flag in user data
+     * @return returns true if user is seller and false when not
+     */
     public boolean isSeller(){
         return currentUser.isSeller;
     }
     
+    /**
+     * Get the product list for sellers
+     */
     private void getSellerList(){
         sellerInventory = new ArrayList();
         for (Inventory productList1 : productList) {
@@ -394,6 +521,11 @@ public class MasterClass {
         }
     }
     
+    /**
+     * Get the product from inventory with an id
+     * @param id The id of the product
+     * @return The product information
+     */
     public Inventory getProduct(int id){
         for (Inventory inv : productList) {
             if (inv.product_ID == id) {
@@ -404,6 +536,11 @@ public class MasterClass {
         return null;
     }
     
+    /**
+     * Get the item in the cart
+     * @param id The id of the product stored in the cart
+     * @return Returns the cart information if it exists and null if nothing is there
+     */
     public CartItem getCartProduct(int id){
         for (CartItem c : currentCart.itemList) {
             if (c.productId == id) {
@@ -414,6 +551,11 @@ public class MasterClass {
         return null;
     }
     
+    /**
+     * Get seller information
+     * @param id THe id of the seller
+     * @return Returns the user information if it exists and null if nothing is there
+     */
     public User getSeller(int id){
         for (User user : userList) {
             if (user.userId == id) {
@@ -424,6 +566,11 @@ public class MasterClass {
         return null;
     }
     
+    /**
+     * Find the location of the product in the productList
+     * @param id The id of the product
+     * @return If the product exists in the list return position else it returns -1
+     */
     private int findProductinList(int id){
         for(int i = 0; i < productList.size(); i++){
             if(productList.get(i).product_ID == id)
@@ -433,6 +580,10 @@ public class MasterClass {
         return -1;
     }
     
+    /**
+     * Get amount of products currently in cart
+     * @return The total count of products in cart
+     */
     public int getCurrentCartTotal(){
         int total = 0;
         for(CartItem item: currentCart.itemList)
@@ -441,6 +592,10 @@ public class MasterClass {
         return total;
     }
     
+    /**
+     * Processes the information for checkout, edits the product dat file, creates a new invoice,
+     * empties the cart, and refreshes the productList to show changes. 
+     */
     public void CheckOut(){
         for (CartItem item : currentCart.itemList) {
             for(int j = 0; j < productList.size(); j++){
