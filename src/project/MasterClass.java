@@ -111,7 +111,7 @@ public class MasterClass {
     }
     
     /**
-     * assToCart handles adding items to the shopping cart. It takes the id of the product and amount given then adds to the currentCart
+     * addToCart handles adding items to the shopping cart. It takes the id of the product and amount given then adds to the currentCart
      * @param amount The amount to be added to the shopping cart
      * @param id The id of the product
      */
@@ -227,7 +227,7 @@ public class MasterClass {
      * Updates the product dat file
      * @throws IOException If unable to write to file an exception will appear
      */
-    public void updateInventory() throws IOException{
+    private void updateInventory() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
                     new FileOutputStream("products.dat"));
@@ -243,7 +243,7 @@ public class MasterClass {
      * Updates the user dat file
      * @throws IOException If unable to write to file an exception will appear
      */
-    public void updateUsers() throws IOException{
+    private void updateUsers() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
                     new FileOutputStream("users.dat"));
@@ -259,7 +259,7 @@ public class MasterClass {
      * Updates the Invoice dat file
      * @throws IOException If unable to write to file an exception will appear
      */
-    public void updateInvoices() throws IOException{
+    private void updateInvoices() throws IOException{
         try{   
             ObjectOutputStream out = new ObjectOutputStream(
                     new FileOutputStream("invoices.dat"));
