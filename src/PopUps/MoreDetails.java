@@ -23,14 +23,22 @@ import javax.swing.JTextField;
 import project.MasterClass;
 
 /**
- *
- * @author Andrew
+ *The more details popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class MoreDetails {
+    /**
+     * Default Constructor
+     */
     public MoreDetails(){
         
     }
     
+    /**
+     * Opens the More details popup
+     * @param master Reference to the MasterClass
+     * @param item Reference to the item
+     */
     public void openPopup(MasterClass master, Inventory item){
         JFrame frame = new JFrame("New Product");
 	frame.setSize(400, 450);
@@ -43,6 +51,13 @@ public class MoreDetails {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     * @param item Reference to the product
+     */
     private static void placeComponents(final JPanel panel, final MasterClass master, final JFrame frame, final Inventory item) {
 
 		panel.setLayout(null);

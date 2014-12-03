@@ -8,8 +8,8 @@ package DataTypes;
 import java.io.Serializable;
 
 /**
- *
- * @author Andrew
+ *Inventory is the class that holds the product information.
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Inventory implements Serializable {
     public int product_ID;

@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- *
- * @author Andrew
+ * Users is the class that holds the user data.
+ * @authors Andrew Hinsz and Geoffrey Laleau 
  */
 public class User implements Serializable{
     public int userId;

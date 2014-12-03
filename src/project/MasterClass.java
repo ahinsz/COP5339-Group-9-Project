@@ -18,15 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Andrew
+ * This is the master class that handles all transactions and popups the applications displays. It keeps track of who is logged on, if they are a seller,
+ * and manages the cart, the product list,seller list, and checkout.
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class MasterClass {
     //Containers for the datatypes
     private ArrayList<User> userList;
     private ArrayList<Inventory> productList;
     private ArrayList<Invoices> invoiceList;
-    private ArrayList<SalesData> salesList;
     private ArrayList<Inventory> sellerInventory;
     
     //Current user and cart
@@ -72,7 +72,6 @@ public class MasterClass {
         userList = new ArrayList();
         productList = new ArrayList();
         invoiceList = new ArrayList();
-        salesList = new ArrayList();
         
         //initialize the objects
         currentCart = new Cart();

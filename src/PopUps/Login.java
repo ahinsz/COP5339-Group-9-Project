@@ -20,15 +20,22 @@ import javax.swing.JTextField;
 import project.MasterClass;
 
 /**
- *
+ * The login popup
  * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Login {
 
+    /**
+     * Default Constructor
+     */
     public Login() {
 
     }
 
+    /**
+     * Opens the login popup
+     * @param master Reference to the MasterClass
+     */
     public void openLogin(MasterClass master) {
         initComponents();
 
@@ -37,6 +44,9 @@ public class Login {
         frame.setVisible(true);
     }
 
+    /**
+     * Initializes the components of the popup
+     */
     private void initComponents() {
 
         frame = new JFrame("OpenBox Login");
@@ -59,6 +69,9 @@ public class Login {
         addCompsToPanel();
     }
 
+    /**
+     * Configures the components of the popup
+     */
     private static void configComponents() {
 
         userLabel.setBounds(10, 10, 80, 25);
@@ -70,6 +83,9 @@ public class Login {
         authorizeLabel.setBounds(10, 110, 200, 20);           
     }
 
+    /**
+     * Adds the components to the popup
+     */
     private static void addCompsToPanel() {
 
         panel.setLayout(null);
@@ -83,6 +99,9 @@ public class Login {
         panel.add(registerButton);
     }
     
+    /**
+     * Creates the action listeners for all the popups objects
+     */
     private static void actionlisteners(){
         
         loginButton.addActionListener(new ActionListener() {

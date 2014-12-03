@@ -24,7 +24,7 @@ import project.MasterClass;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class EditProduct {
     

@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- *
- * @author Andrew
+ *Invoices is the class that holds the purchase information from customers.
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Invoices implements Serializable{
     public int InvoiceID;

@@ -23,13 +23,21 @@ import project.MasterClass;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Register {
+    
+    /**
+     * Default Constructor
+     */
     public Register(){
         
     }
     
+    /**
+     * Opens the registration popup
+     * @param master Reference to the MasterClass
+     */
     public void openPopup(MasterClass master){
         JFrame frame = new JFrame("Register");
 	frame.setSize(400, 520);
@@ -42,6 +50,12 @@ public class Register {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     */
     private static void placeComponents(final JPanel panel, final MasterClass master, final JFrame frame) {
 
 		panel.setLayout(null);

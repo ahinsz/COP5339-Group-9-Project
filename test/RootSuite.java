@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({})

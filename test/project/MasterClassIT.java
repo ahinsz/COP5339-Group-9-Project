@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class MasterClassIT {
     

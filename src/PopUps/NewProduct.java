@@ -16,15 +16,22 @@ import javax.swing.*;
 import project.MasterClass;
 
 /**
- *
- * @author Andrew
+ *Opens the new product popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class NewProduct {
     
+    /**
+     * Default Constructor
+     */
     public NewProduct(){
         
     }
     
+    /**
+     * Opens the new Product popup
+     * @param master Reference to MasterClass
+     */
     public void openNewProduct(MasterClass master){
         JFrame frame = new JFrame("New Product");
 	frame.setSize(400, 450);
@@ -37,6 +44,12 @@ public class NewProduct {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     */
     private static void placeComponents(final JPanel panel, final MasterClass master, final JFrame frame) {
 
 		panel.setLayout(null);
@@ -148,6 +161,11 @@ public class NewProduct {
 		panel.add(registerButton);
 	}
     
+    /**
+     * Checks to see if string is a number
+     * @param item The string being checked
+     * @return Returns true if a number, false otherwise
+     */
     public static boolean isDouble(String item){
         try
         {

@@ -18,14 +18,22 @@ import javax.swing.JTextField;
 import project.MasterClass;
 
 /**
- *
- * @author Andrew
+ *The edit cart popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class EditCartItem {
+    /**
+     * Default Constructor
+     */
     public void EditCartItem(){
         
     }
     
+    /**
+     * Opens the edit cart popup
+     * @param master Reference to the back to the MasterClass 
+     * @param cart Reference to the cart item
+     */
     public void openEditCartPopup(MasterClass master, CartItem cart){
         JFrame frame = new JFrame("Edit");
 	frame.setSize(400, 450);
@@ -38,6 +46,13 @@ public class EditCartItem {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     * @param cart Reference to the cart item
+     */
     private void placeComponents(JPanel panel, final MasterClass master, final JFrame frame, final CartItem cart){
         panel.setLayout(null);
         

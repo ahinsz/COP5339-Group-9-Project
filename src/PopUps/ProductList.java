@@ -35,10 +35,19 @@ import project.MasterClass;
  */
 public class ProductList {
 
+    /**
+     * Default Constructor
+     */
     public ProductList() {
 
     }
 
+    /**
+     * Opens and sets up the popup
+     * @param master Reference to the current cart
+     * @param list Reference to the existing products
+     * @param currentCart reference to shopping cart
+     */
     public void openPopup(MasterClass master, ArrayList<Inventory> list, Cart currentCart) {
 
         ProductList.master = master;
@@ -53,6 +62,9 @@ public class ProductList {
         frame.setVisible(true);
     }
 
+    /**
+     * Initializes the components of the popup
+     */
     private static void initComponents() {
         frame = new JFrame("Product List");
         panel = new JPanel();
@@ -76,6 +88,9 @@ public class ProductList {
         configComponents();
     }
 
+    /**
+     * Configures the popup elements
+     */
     private static void configComponents() {
 
         frame.setSize(650, 400);
@@ -100,22 +115,7 @@ public class ProductList {
         
         cartAmount.setText("Items in Cart: " + master.getCurrentCartTotal());        
         cartTotal.setText("Total: " + Double.toString(currentCart.total));        
-        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);        
-        
-        /*BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("images/openbox.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image dimg = img.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
-        Image.SCALE_SMOOTH);
-        
-        ImageIcon imageIcon = new ImageIcon(dimg);
-        imageLabel.setIcon(imageIcon);
-        //imageLabel.setIcon(image);
-        imageLabel.setBorder(LineBorder.createBlackLineBorder());
-        imageLabel.setVisible(true);*/
+        scrollList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
         for (Inventory l : list) {
             User user = master.getSeller(l.SellerID);
@@ -126,6 +126,9 @@ public class ProductList {
         }              
     }
 
+    /**
+     * Adds components to the popup
+     */
     private static void addCompsToPanel() {
 
         panel.setLayout(null);
@@ -141,6 +144,9 @@ public class ProductList {
         panel.add(imageLabel);        
     }
     
+    /**
+     * Creates the action listeners for all the popups objects
+     */
     private static void actionListeners(){         
         
         logOutButton.addActionListener(new ActionListener() {
@@ -191,11 +197,21 @@ public class ProductList {
         });
     }
 
+    /**
+     * Updates the Cart information
+     * @param currentCart Reference to current cart
+     * @param master Reference to MasterClass
+     */
     public void updateCart(Cart currentCart, MasterClass master) {
         cartAmount.setText("Items in Cart: " + master.getCurrentCartTotal());
         cartTotal.setText("Total: " + currentCart.total);
     }
     
+    /**
+     * Refreshes the product list
+     * @param list Reference to products list
+     * @param master Reference to MasterClass
+     */
     public void refreshList(ArrayList<Inventory> list,MasterClass master){
         if (tableModel.getRowCount() > 0) {
             for (int i = tableModel.getRowCount() - 1; i > -1; i--) {

@@ -22,16 +22,24 @@ import javax.swing.table.DefaultTableModel;
 import project.MasterClass;
 
 /**
- *
- * @author Andrew
+ *The cart popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class CartPopUp {
     private DefaultTableModel tableModel;
     
+    /**
+     * Default Constructor
+     */
     public CartPopUp(){
         
     }
     
+    /**
+     * Opens the Cart popup
+     * @param master Reference to the back to the MasterClass 
+     * @param cart Reference to the shopping cart in MasterClass
+     */
     public void openPopup(final MasterClass master, Cart cart){
         JFrame frame = new JFrame("Cart");
 	frame.setSize(410, 450);
@@ -44,6 +52,13 @@ public class CartPopUp {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in poup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     * @param cart Reference to the cart
+     */
     private void placeComponents(JPanel panel, final MasterClass master, final JFrame frame, Cart cart){
         panel.setLayout(null);
         
@@ -133,6 +148,11 @@ public class CartPopUp {
         panel.add(checkOutButton);
     }
     
+    /**
+     * Refreshes the list showing the list of products in cart
+     * @param cart Reference to the shopping cart
+     * @param master Reference to the MasterClass
+     */
     public void refreshList(Cart cart, MasterClass master){
         if (tableModel.getRowCount() > 0) {
             for (int i = tableModel.getRowCount() - 1; i > -1; i--) {

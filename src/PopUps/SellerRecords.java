@@ -17,15 +17,22 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Andrew
+ * Open the sells records popup for the seller
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class SellerRecords {
     
+    /**
+     * Default Constructor
+     */
     public SellerRecords(){
         
     }
     
+    /**
+     * Open seller records popup
+     * @param list Reference to the seller inventory
+     */
     public void openPopup(ArrayList<Inventory> list){
         JFrame frame = new JFrame("Seller Records");
 	frame.setSize(670, 330);
@@ -38,6 +45,12 @@ public class SellerRecords {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param frame the frame of the popup
+     * @param list Reference to the seller inventory
+     */
     private void placeComponents(JPanel panel,final JFrame frame, ArrayList<Inventory> list){
         panel.setLayout(null);
         double totalCost = 0;

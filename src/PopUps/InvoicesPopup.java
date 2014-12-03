@@ -29,13 +29,21 @@ import project.MasterClass;
 
 /**
  *
- * @author Andrew
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class InvoicesPopup {
+    /**
+     * Default constructor
+     */
     public InvoicesPopup(){
         
     }
     
+    /**
+     * Opens the Invoice popup
+     * @param list Reference of all customer invoices
+     * @param master Reference for the MasterClass
+     */
     public void openPopup(ArrayList<Invoices> list, MasterClass master){
         InvoicesPopup.list = list;
         InvoicesPopup.master = master;
@@ -48,6 +56,9 @@ public class InvoicesPopup {
         frame.setVisible(true);
     }
     
+    /**
+     * Initializes the components of the popup
+     */
     private void initComponents(){
         frame = new JFrame("Invoices");
         panel = new JPanel();
@@ -70,6 +81,9 @@ public class InvoicesPopup {
         configComponents();
     }
     
+    /**
+     * Configures the popup elements
+     */
     private void configComponents(){
         frame.setSize(450, 570);
         frame.setLocationRelativeTo(null);
@@ -91,6 +105,9 @@ public class InvoicesPopup {
         }
     }
     
+    /**
+     * Adds components to the popup
+     */
     private void addCompsToPanel(){
         panel.setLayout(null);
         panel.add(invoiceScrollList);
@@ -100,6 +117,9 @@ public class InvoicesPopup {
         panel.add(exitButton);
     }
     
+    /**
+     * Creates the action listeners for all the popups objects
+     */
     private void actionListeners(){
         invoicesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override

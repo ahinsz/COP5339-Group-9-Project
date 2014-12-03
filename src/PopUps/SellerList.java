@@ -21,17 +21,24 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Andrew
+ *The seller popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class SellerList {
     private DefaultTableModel tableModel;
     
-    
+    /**
+     * default Constructor
+     */
     public SellerList(){
         
     }
     
+    /**
+     * Opens the seller popup
+     * @param master Reference to MasterClass
+     * @param list Reference to the seller inventory
+     */
     public void openPopup(final MasterClass master, ArrayList<Inventory> list){
         JFrame frame = new JFrame("Seller List");
 	frame.setSize(600, 300);
@@ -44,6 +51,13 @@ public class SellerList {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     * @param list Reference to the seller inventory
+     */
     private void placeComponents(final JPanel panel, final MasterClass master, final JFrame frame, final ArrayList<Inventory> list) {
         panel.setLayout(null);
         
@@ -144,11 +158,19 @@ public class SellerList {
         
     }
     
+    /**
+     * Updates the seller list
+     * @param item New product being added
+     */
     public void updateList(Inventory item){
         Object[] i = {item.product_ID, item.Name, item.Sell_Price, item.Invoice_Price, item.Quantity};
         tableModel.addRow(i);
     }
     
+    /**
+     * Refreshes the seller's inventory
+     * @param seller Reference to the seller's inventory
+     */
     public void refreshList(ArrayList<Inventory> seller){
         if (tableModel.getRowCount() > 0) {
             for (int i = tableModel.getRowCount() - 1; i > -1; i--) {

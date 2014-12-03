@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import DataTypes.*;
 
 /**
- *
- * @author Andrew
+ *The cart holds all the products that customer wants to buy.
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Cart implements Serializable {
     public Cart(){

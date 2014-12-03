@@ -10,14 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Andrew
+ * The main that starts the project and launches the login popup.
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class Project {
 
     /**
      * @param args the command line arguments
-     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.ClassNotFoundException THrows exception if missing files
      */
     public static void main(String[] args) throws ClassNotFoundException {
         try {

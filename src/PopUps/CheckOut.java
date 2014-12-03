@@ -21,16 +21,24 @@ import javax.swing.table.DefaultTableModel;
 import project.MasterClass;
 
 /**
- *
- * @author Andrew
+ * The checkout popup
+ * @authors Andrew Hinsz and Geoffrey Laleau
  */
 public class CheckOut {
     private DefaultTableModel tableModel;
     
+    /**
+     * Default Constructor
+     */
     public CheckOut(){
         
     }
     
+    /**
+     * Opens the Checkout popup
+     * @param master Reference to the back to the MasterClass 
+     * @param cart Reference to the shopping cart in MasterClass
+     */
     public void openPopup(final MasterClass master, Cart cart){
         JFrame frame = new JFrame("Cart");
 	frame.setSize(410, 510);
@@ -43,6 +51,13 @@ public class CheckOut {
 	frame.setVisible(true);
     }
     
+    /**
+     * Places the components of the popup and sets the functionality of its buttons and lists
+     * @param panel the panel used in popup
+     * @param master Reference to the MasterClass
+     * @param frame the frame of the popup
+     * @param cart Reference to the cart
+     */
     private void placeComponents(JPanel panel, final MasterClass master, final JFrame frame, Cart cart){
         panel.setLayout(null);
         
